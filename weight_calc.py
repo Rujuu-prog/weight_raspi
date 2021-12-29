@@ -14,12 +14,15 @@ def cleanAndExit():
     print('complete')
     sys.exit()
 
+
 def main():
+    def_weight = input("input weight...")
     hx = HX711(PIN_DAT, PIN_CLK)
     hx.set_reading_format('MSB', 'MSB')
     hx.set_reference_unit(refUnit)
     hx.reset()
     hx.tare()
+
 
     print('Tare done! Add weight now...')
 
@@ -33,7 +36,7 @@ def main():
             time.sleep(0.1)
 
         except(KeyboardInterrupt, SystemExit):
-            panel.display_clear()
+            # panel.display_clear()
             cleanAndExit()
 
 if __name__ == '__main__':

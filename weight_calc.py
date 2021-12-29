@@ -47,14 +47,14 @@ def main():
     while True:
         val = measurement(hx)
         weight = math.modf(val)
+        print(weight)
         if count < 10 and before_weight == weight:
             count += 1
             before_weight = weight[0]
+            print(count)
         elif count == 10 and before_weight == weight:
-            print("-----計測開始-----")
             val_list.append(val)
             if len(val_list) == 30:
-                print("-----計測終了-----")
                 break
         else:
             print("例外です。")

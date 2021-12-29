@@ -45,20 +45,25 @@ def main():
     hx = setting(refUnit)
 
     while True:
-        val = measurement(hx)
-        weight = math.modf(val)
-        print(weight)
-        if count < 10 and before_weight == weight:
-            count += 1
-            before_weight = weight[0]
+        try:
+            val = measurement(hx)
+            weight = math.modf(val)
+            print(weight)
             print(count)
-        elif count == 10 and before_weight == weight:
-            val_list.append(val)
-            if len(val_list) == 30:
-                break
-        else:
-            print("例外です。")
-            continue
+            if count < 10 and before_weight == weight:
+                count += 1
+                before_weight = weight[0]
+                
+            elif count == 10 and before_weight == weight:
+                val_list.append(val)
+                if len(val_list) == 30:
+                    break
+            else:
+                print("例外です。")
+                continue
+        except(KeyboardInterrupt, SystemExit):
+            # panel.display_clear()
+            cleanAndExit()
     avg = sum(val_list) / len(val_list)
     refUnit = avg // def_weight
     print("キャリブレーション値は、"+str(refUnit)+"です。")

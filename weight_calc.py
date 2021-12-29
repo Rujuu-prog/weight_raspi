@@ -40,33 +40,36 @@ def main():
     before_weight = 0
     val_list = []
 
-    def_weight = input("重量を入力してください...")
+    def_weight = int(input("重量を入力してください..."))
 
     hx = setting(refUnit)
 
     while True:
         try:
             val = measurement(hx)
-            weight = math.modf(val)
+            f, i = math.modf(val)
+            print(f)
             print(before_weight)
             print(count)
-            if count < 10 and before_weight == weight[0]:
+            if count < 10 and before_weight == f:
                 count += 1
-            elif count == 10 and before_weight == weight[0]:
+            elif before_weight != f:
+                count = 0
+            elif count == 10 and before_weight == f:
                 val_list.append(val)
                 if len(val_list) == 30:
                     break
             else:
                 print("例外です。")
-                continue
-            before_weight = weight[0]
+                pass
+            before_weight = f
         except(KeyboardInterrupt, SystemExit):
             # panel.display_clear()
             cleanAndExit()
     avg = sum(val_list) / len(val_list)
     refUnit = avg // def_weight
     print("キャリブレーション値は、"+str(refUnit)+"です。")
-    os.system("PAUSE")
+    input()
     print("-----本計測開始-----")
     hx = setting(refUnit)
 

@@ -12,7 +12,7 @@ SAMP_DATAS = [
 ]
 
 avg = sum(SAMP_DATAS) / len(SAMP_DATAS)
-result = avg / REF_OMOSA
+result = avg // REF_OMOSA
 print(result)
 
 # print("referenceUnit is ", sum(SAMP_DATAS) / len(SAMP_DATAS) //REF_OMOSA)

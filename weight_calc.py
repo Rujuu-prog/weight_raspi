@@ -48,11 +48,11 @@ def main():
         try:
             val = measurement(hx)
             weight = math.modf(val)
-            print(weight)
+            print(before_weight)
             print(count)
-            if count < 10 and before_weight == weight:
+            if count < 10 and before_weight == weight[0]:
                 count += 1
-            elif count == 10 and before_weight == weight:
+            elif count == 10 and before_weight == weight[0]:
                 val_list.append(val)
                 if len(val_list) == 30:
                     break

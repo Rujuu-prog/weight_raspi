@@ -71,6 +71,7 @@ def main():
     print("キャリブレーション値は、"+str(refUnit)+"です。")
     input()
     print("-----本計測開始-----")
+    # hxをリセットする処理を追加？
     hx = setting(refUnit)
 
     print('Tare done! Add weight now...')

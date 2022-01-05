@@ -52,16 +52,16 @@ def main() -> None:
                 print("Error value...!")
                 cleanAndExit()
             print(before_weight)
-            if count < 10 and before_weight == f:
+            if count <= 10 and before_weight == f:
                 count += 1
             elif before_weight != f:
                 count = 0
-            elif count >= 10 and before_weight == f:
-                print("Calibration now...("+str(count - 9)+"/30)")
+            elif count > 10 and before_weight == f:
+                print("Calibration now...("+str(count - 10)+"/30)")
                 val_list.append(val)
-                count += 1
-                if count == 31:
+                if count == 40:
                     break
+                count += 1
             else:
                 print("exception...")
                 pass

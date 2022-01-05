@@ -40,7 +40,7 @@ def main():
     before_weight = 0
     val_list = []
 
-    def_weight = int(input("重量を入力してください..."))
+    def_weight = int(input("Input weight..."))
 
     hx = setting(refUnit)
 
@@ -48,6 +48,9 @@ def main():
         try:
             val = measurement(hx)
             f, i = math.modf(val)
+            if f == 0 or f == 0.0:
+                print("Error value...!")
+                cleanAndExit()
             print(f)
             print(before_weight)
             print(count)
@@ -60,27 +63,21 @@ def main():
                 if len(val_list) == 30:
                     break
             else:
-                print("例外です。")
+                print("exception...")
                 pass
             before_weight = f
         except(KeyboardInterrupt, SystemExit):
-            # panel.display_clear()
             cleanAndExit()
     avg = sum(val_list) / len(val_list)
     refUnit = avg // def_weight
-    print("キャリブレーション値は、"+str(refUnit)+"です。")
+    print("Calibration value is"+str(refUnit)+".")
     input()
-    print("-----本計測開始-----")
-    # hxをリセットする処理を追加？
+    print("-----Start measurement-----")
     hx = setting(refUnit)
-
-    print('Tare done! Add weight now...')
-
     while True:
         try:
             val = measurement(hx)
         except(KeyboardInterrupt, SystemExit):
-            # panel.display_clear()
             cleanAndExit()
 
 if __name__ == '__main__':

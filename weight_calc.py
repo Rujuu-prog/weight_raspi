@@ -10,14 +10,14 @@ PIN_CLK = 6
 
 
 
-def cleanAndExit():
+def cleanAndExit() -> None:
     print('cleaning...')
     GPIO.cleanup()
-    print('complete')
+    print('Exiting program...')
     sys.exit()
 
 
-def setting(refUnit):
+def setting(refUnit: int) -> any:
     hx = HX711(PIN_DAT, PIN_CLK)
     hx.set_reading_format('MSB', 'MSB')
     hx.set_reference_unit(refUnit)
@@ -26,7 +26,7 @@ def setting(refUnit):
     return hx
 
 
-def measurement(hx):
+def measurement(hx: any) -> int:
     val = hx.get_weight(5)
     print(val)
     hx.power_down()
@@ -34,7 +34,7 @@ def measurement(hx):
     time.sleep(0.1)
     return val
 
-def main():
+def main() -> None:
     refUnit = 1
     count = 0
     before_weight = 0
@@ -51,16 +51,16 @@ def main():
             if f == 0 or f == 0.0:
                 print("Error value...!")
                 cleanAndExit()
-            print(f)
             print(before_weight)
-            print(count)
             if count < 10 and before_weight == f:
                 count += 1
             elif before_weight != f:
                 count = 0
-            elif count == 10 and before_weight == f:
+            elif count >= 10 and before_weight == f:
+                print("Calibration now...("+str(count - 9)+"/30)")
                 val_list.append(val)
-                if len(val_list) == 30:
+                count += 1
+                if count == 31:
                     break
             else:
                 print("exception...")
@@ -70,7 +70,7 @@ def main():
             cleanAndExit()
     avg = sum(val_list) / len(val_list)
     refUnit = avg // def_weight
-    print("Calibration value is"+str(refUnit)+".")
+    print("Calibration value is "+str(refUnit)+".")
     input()
     print("-----Start measurement-----")
     hx = setting(refUnit)

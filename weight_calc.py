@@ -5,6 +5,7 @@ import math
 import RPi.GPIO as GPIO
 from hx711py.hx711 import HX711
 
+
 PIN_DAT = 5
 PIN_CLK = 6
 
@@ -28,7 +29,7 @@ def setting(refUnit: int) -> any:
 
 def measurement(hx: any) -> int:
     val = hx.get_weight(5)
-    print(val)
+    
     hx.power_down()
     hx.power_up()
     time.sleep(0.1)
@@ -40,13 +41,15 @@ def main() -> None:
     before_weight = 0
     val_list = []
 
-    def_weight = int(input("Input weight..."))
+    cal_weight = int(input("Enter the calibration weight...."))
+    container_weight = int(input("Enter the weight of the container...."))
 
     hx = setting(refUnit)
 
     while True:
         try:
             val = measurement(hx)
+            print(str(val)+"g")
             f, i = math.modf(val)
             if f == 0 or f == 0.0:
                 print("Error value...!")
@@ -69,14 +72,15 @@ def main() -> None:
         except(KeyboardInterrupt, SystemExit):
             cleanAndExit()
     avg = sum(val_list) / len(val_list)
-    refUnit = avg // def_weight
+    refUnit = avg // cal_weight
     print("Calibration value is "+str(refUnit)+".")
-    input()
+    input("Please input enter to start measurement...")
     print("-----Start measurement-----")
     hx = setting(refUnit)
     while True:
         try:
             val = measurement(hx)
+            print(str(val)+"g")
         except(KeyboardInterrupt, SystemExit):
             cleanAndExit()
 

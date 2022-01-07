@@ -11,14 +11,14 @@ PIN_DAT = 5
 PIN_CLK = 6
 
 
-
+# Exit関数()
 def cleanAndExit() -> None:
     print('cleaning...')
     GPIO.cleanup()
     print('Exiting program...')
     sys.exit()
 
-
+# 設定関数(キャリブレーション値: int)
 def setting(refUnit: int) -> any:
     hx = HX711(PIN_DAT, PIN_CLK)
     hx.set_reading_format('MSB', 'MSB')
@@ -27,28 +27,29 @@ def setting(refUnit: int) -> any:
     hx.tare()
     return hx
 
-
+# 計測関数(HX711: any, 秒数: int)
 def measurement(hx: any, sec: int) -> int:
     val = hx.get_weight(5)
-    
     hx.power_down()
     hx.power_up()
     time.sleep(sec)
     return val
 
 def main() -> None:
+    # 初期値
     refUnit = 1
     count = 0
     before_weight = 0
     val_list = []
 
+    # 必要情報入力
     cal_weight = int(input("1.Enter the calibration weight...."))
     container_weight = int(input("2.Enter the weight of the container...."))
     container_width = int(input("3.Enter the width of the container in mm...."))
     container_vertical = int(input("4.Enter the vertical of the container in mm...."))
 
+    # キャリブレーション開始
     hx = setting(refUnit)
-
     while True:
         try:
             val = measurement(hx, 0.1)
@@ -78,6 +79,8 @@ def main() -> None:
     refUnit = avg // cal_weight
     print("Calibration value is "+str(refUnit)+".")
     input("Please input enter to start measurement...")
+
+    # 計測開始
     print("-----Start measurement-----")
     hx = setting(refUnit)
     start_time = time.perf_counter()

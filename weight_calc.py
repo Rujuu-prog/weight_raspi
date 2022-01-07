@@ -2,6 +2,7 @@ import time
 import sys
 import os
 import math
+from decimal import Decimal, ROUND_HALF_UP
 import RPi.GPIO as GPIO
 from hx711py.hx711 import HX711
 
@@ -27,12 +28,12 @@ def setting(refUnit: int) -> any:
     return hx
 
 
-def measurement(hx: any) -> int:
+def measurement(hx: any, sec: int) -> int:
     val = hx.get_weight(5)
     
     hx.power_down()
     hx.power_up()
-    time.sleep(0.1)
+    time.sleep(sec)
     return val
 
 def main() -> None:
@@ -41,16 +42,18 @@ def main() -> None:
     before_weight = 0
     val_list = []
 
-    cal_weight = int(input("Enter the calibration weight...."))
-    container_weight = int(input("Enter the weight of the container...."))
+    cal_weight = int(input("1.Enter the calibration weight...."))
+    # container_weight = int(input("2.Enter the weight of the container...."))
+    container_width = int(input("3.Enter the width of the container in mm...."))
+    container_vertical = int(input("4.Enter the vertical of the container in mm...."))
 
     hx = setting(refUnit)
 
     while True:
         try:
-            val = measurement(hx)
+            val = measurement(hx, 0.1)
             print(str(val)+"g")
-            f, i = math.modf(val)
+            f, i = math.modf(val)   
             if f == 0 or f == 0.0:
                 print("Error value...!")
                 cleanAndExit()
@@ -77,10 +80,15 @@ def main() -> None:
     input("Please input enter to start measurement...")
     print("-----Start measurement-----")
     hx = setting(refUnit)
+    start_time = time.perf_counter()
     while True:
         try:
-            val = measurement(hx)
-            print(str(val)+"g")
+            val = measurement(hx, 1)
+            print("#---------------------")
+            print("■"+str(val)+"g")
+            elapsed_time = Decimal(str(time.perf_counter() - start_time)).quantize(Decimal('0'), rounding=ROUND_HALF_UP)
+            precipitation = (val * 1000) / (container_width * container_vertical) * (3600 / int(elapsed_time))
+            print("●"+str(precipitation)+"mm/h")
         except(KeyboardInterrupt, SystemExit):
             cleanAndExit()
 

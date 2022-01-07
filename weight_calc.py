@@ -43,9 +43,9 @@ def main() -> None:
     val_list = []
 
     cal_weight = int(input("1.Enter the calibration weight...."))
-    # container_weight = int(input("2.Enter the weight of the container...."))
-    container_width = int(input("2.Enter the width of the container in mm...."))
-    container_vertical = int(input("3.Enter the vertical of the container in mm...."))
+    container_weight = int(input("2.Enter the weight of the container...."))
+    container_width = int(input("3.Enter the width of the container in mm...."))
+    container_vertical = int(input("4.Enter the vertical of the container in mm...."))
 
     hx = setting(refUnit)
 
@@ -87,7 +87,7 @@ def main() -> None:
             print("#---------------------")
             print("■"+str(val)+"g")
             elapsed_time = Decimal(str(time.perf_counter() - start_time)).quantize(Decimal('0'), rounding=ROUND_HALF_UP)
-            precipitation = (val * 1000) / (container_width * container_vertical) * (3600 / int(elapsed_time))
+            precipitation = ((val - container_weight) * 1000) / (container_width * container_vertical) * (3600 / int(elapsed_time))
             print("●"+str(precipitation)+"mm/h")
         except(KeyboardInterrupt, SystemExit):
             cleanAndExit()

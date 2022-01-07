@@ -85,9 +85,10 @@ def main() -> None:
         try:
             val = measurement(hx, 1)
             print("#---------------------")
-            print("■"+str(val)+"g")
+            water_weight = val - container_weight
+            print("■"+str(water_weight)+"g")
             elapsed_time = Decimal(str(time.perf_counter() - start_time)).quantize(Decimal('0'), rounding=ROUND_HALF_UP)
-            precipitation = ((val - container_weight) * 1000) / (container_width * container_vertical) * (3600 / int(elapsed_time))
+            precipitation = (water_weight * 1000) / (container_width * container_vertical) * (3600 / int(elapsed_time))
             print("●"+str(precipitation)+"mm/h")
         except(KeyboardInterrupt, SystemExit):
             cleanAndExit()

@@ -54,7 +54,7 @@ def main() -> None:
     container_width = int(input("3.Enter the width of the container in mm...."))
     container_vertical = int(input("4.Enter the vertical of the container in mm...."))
     while True:
-        file_name = int(input("5.Enter a name for the output file without extension...."))
+        file_name = input("5.Enter a name for the output file without extension....")
         file_path = "./output/"+dt_now_year+"_"+dt_now_month+"_"+dt_now_day+"/"+file_name+".csv"
         if os.path.isfile(file_path):
             print("It already exists file name.")

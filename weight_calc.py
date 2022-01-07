@@ -2,6 +2,7 @@ import time
 import sys
 import os
 import math
+import pathlib
 import datetime
 import pandas as pd
 from decimal import Decimal, ROUND_HALF_UP
@@ -95,9 +96,11 @@ def main() -> None:
     input("Please input enter to start measurement...")
     
     # 出力ファイル作成
-    f = open(file_path, 'w')
-    f.write('')
-    f.close()
+    # f = open(file_path, 'w')
+    # f.write('')
+    # f.close()
+    f = pathlib.Path(file_path)
+    f.touch()
     df_def = pd.read_csv("./default_file/default.csv", dtype=str, encoding='SHIFT-JIS', engine='python')
     df_def.to_csv(file_path, encoding='SHIFT-JIS', index=False)
 

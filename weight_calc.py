@@ -95,6 +95,9 @@ def main() -> None:
     input("Please input enter to start measurement...")
     
     # 出力ファイル作成
+    f = open(file_path, 'w')
+    f.write('')
+    f.close()
     df_def = pd.read_csv("./default_file/default.csv", dtype=str, encoding='SHIFT-JIS', engine='python')
     df_def.to_csv(file_path, encoding='SHIFT-JIS', index=False)
 

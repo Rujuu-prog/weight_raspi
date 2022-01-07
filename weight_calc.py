@@ -56,11 +56,13 @@ def main() -> None:
     container_vertical = int(input("4.Enter the vertical of the container in mm...."))
     while True:
         file_name = input("5.Enter a name for the output file without extension....")
-        file_path = "./output/"+dt_now_year+"_"+dt_now_month+"_"+dt_now_day+"/"+file_name+".csv"
+        folder_path = "./output/"+dt_now_year+"_"+dt_now_month+"_"+dt_now_day+"/"
+        file_path = folder_path+file_name+".csv"
         if os.path.isfile(file_path):
             print("It already exists file name.")
             continue
         else:
+            os.makedirs(folder_path, exist_ok=True)
             break
 
     # キャリブレーション開始

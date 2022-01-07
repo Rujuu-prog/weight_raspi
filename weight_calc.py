@@ -44,8 +44,8 @@ def main() -> None:
 
     cal_weight = int(input("1.Enter the calibration weight...."))
     # container_weight = int(input("2.Enter the weight of the container...."))
-    container_width = int(input("3.Enter the width of the container in mm...."))
-    container_vertical = int(input("4.Enter the vertical of the container in mm...."))
+    container_width = int(input("2.Enter the width of the container in mm...."))
+    container_vertical = int(input("3.Enter the vertical of the container in mm...."))
 
     hx = setting(refUnit)
 
